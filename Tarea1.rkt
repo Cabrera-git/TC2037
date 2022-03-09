@@ -7,7 +7,9 @@ Emiliano Cabrera
 
 #lang racket
 
-(provide fahrenheit-to-celsius sign roots bmi factorial duplicate pow fib enlist positives add-list invert-pairs list-of-symbols? swapper)
+(require math/statistics)
+
+(provide fahrenheit-to-celsius sign roots bmi factorial duplicate pow fib enlist positives add-list invert-pairs list-of-symbols? swapper standard-deviation binary)
 
 " 1.- fahrenheit-to-celsius - Converts Fahrenheit to Celsius "
 (define (fahrenheit-to-celsius temp) 
@@ -108,18 +110,41 @@ Emiliano Cabrera
 	(if (empty? lst)
 		#t
 		(if (symbol? (car lst))
-			(list-of-symbols? (cdr lst)) #f)
+			(list-of-symbols? (cdr lst)) 
+			#f
+		)
 	)
 )
 
 " 14.- swapper - Swaps instances of a for b, and viceversa, within a list "
 (define (swapper a b lst)
-	(if (empty?) lst)
+	(if (empty? lst)
 		lst
 		(cond
 			[(equal? (car lst) a) (append b (swapper a b (cdr lst)))]
 			[(equal? (car lst) b) (append a (swapper a b (cdr lst)))]
 			[else (swapper a b (cdr lst))]
+		)
+	)
+)
+
+
+" 17.- standard-deviation - Returns the st. dev. of the numbers from a list, 0 if the list is empty "
+(define (standard-deviation lst)
+	(if (empty? lst) 
+		0 
+		(stddev lst)
+	)
+)
+
+" 20.- binary - Returns a list with the binary representation of n "
+(define (binary n)
+  	(cond ((zero? n) '())
+        (else 
+			(flatten (cons 
+				(binary (quotient n 2)) 
+				(list (remainder n 2))
+			))
 		)
 	)
 )
