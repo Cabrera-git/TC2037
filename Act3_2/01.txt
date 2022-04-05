@@ -1,0 +1,4 @@
+// Caso 1
+area = base * altura / 2
+peso = 14.5677 - ( -123.104E5 ) // Esto no es real
+cantidad = pasadas ^ potencia + ( peso * area )
