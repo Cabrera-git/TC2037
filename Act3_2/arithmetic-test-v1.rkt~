@@ -6,11 +6,10 @@
     2021-03-24
 |#
 
+; Import library for unit testing
 (require rackunit)
 ; Import necesary to view the test results
 (require rackunit/text-ui)
-(require racket/trace)
-
 
 (define test-arithmetic-lexer
     (test-suite
