@@ -1,3 +1,11 @@
+#|
+Emiliano Cabrera, A01025453
+Do Hyun Nam, A01025276
+
+Actividad 3.2 Deterministic Finite Automata
+8 de abril del 2022
+|#
+
 #lang racket
 
 (define (validate-string input-string dfa)
@@ -11,22 +19,22 @@
         * list of accept states
     Return: boolean"
 
-    (let loop ;recursive function(load "arithmetic-test-v2")
-        ([lst  (remove* (list #\space " ") (string->list input-string))] ; removes spaces from input string
-        [state (second dfa)] ; calling second element in DFA list (start state)
-        [token-list empty] ; list where token-types are stored once found
-        [token-elements empty] ; list where elements are stored after their token types are defined
-        [transition (first dfa)]) ; calling first elemnt of DFA list (transition function accept-arithmetic)
+    (let loop
+        ([lst  (remove* (list #\space " ") (string->list input-string))] ;removes spaces from input string
+        [state (second dfa)] ;calling second element in DFA list (start state)
+        [token-list empty] ;list where token-types are stored when found
+        [token-elements empty] ;list where elements are stored after the token type is defined
+        [transition (first dfa)]) ;calling first elemnt of DFA list (transition function accept-arithmetic)
        
         (if (empty? lst)
             (if (member state (third dfa)) 
-                (append token-list (list (list (list->string token-elements)state))) ; if current start state is a member of accept state list, add token-type to token-list
+                (append token-list (list (list (list->string token-elements)state))) ;if current start state is a member of accept state list, add token-type to token-list
                  #f)
             (let-values 
-                ([(state token-type) (transition state (first lst))]) ; define variabble values with atributes state and transition
-                (loop  ; recursive call of function loop
-                    (rest lst) ; remaining elements in lst
-                    state ; new start state at time of call
+                ([(state token-type) (transition state (first lst))]) ; define variable values with atributes state and transition
+                (loop 
+                    (rest lst) 
+                    state 
                     (if token-type
                         (append token-list (list (list (list->string token-elements)token-type))) ; if a token-type was returned add to token-list, if not pass given token-list
                         token-list)
@@ -125,5 +133,5 @@
             [(eq? state 'invalid) (values 'invalid #f)]))) ; defines invalid state
 
 
-(define (arithmetic-lexer input-string) ; MAIN FUNCTION in charge of calling the function containing DFA and recursive properties
+(define (arithmetic-lexer input-string) ; MAIN FUNCTION
     (validate-string input-string (list accept-arithmetic 'q0 (list 'int 'var 'par_1 'space 'float)))) ; calling DFA function (validate-string) & transition function (accecpt-arithmetic)
