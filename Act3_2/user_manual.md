@@ -11,7 +11,7 @@
 1. Have a computer  
 2. Download and install Racket from the [official site](https://download.racket-lang.org/)  
 3. Place the lexer's files within a known directory  
-4. Be ready to meet God  
+4. Be ready to meet **God**
 
 ### Usage:
 1. Place both *arithmetic-lexer.rkt* and your desired test file within the same folder
