@@ -15,7 +15,7 @@ BNF
 
         <variable> ::== <letter><variable> | _<variable> | <letter> | <letter><number>
 
-        <letter> ::== a | b | c | d | e | f | g | h | i |...
+        <letter> ::== a | b | c | d | e | f | g | h | i | j | k | l | m | n | o | p | q | r | s | t | u | v | w | x | y | z
 
         <number> ::== <digit> | <digit><number>
 
@@ -38,7 +38,7 @@ BNF
 
         <masc-variable> ::== <masc><variable>
 
-        <masc> ::== A | B | C | D | E | F | G | H | I |...
+        <masc> ::== A | B | C | D | E | F | G | H | I | J | K | L | M | N | O | P | Q | R | S | T | U | V | W | X | Y | Z
 
         <mult-function> ::== <function> | <function> end <mult-function>
 
@@ -48,7 +48,7 @@ EBNF
 
         VARIABLE ::== [{'_'}]LETTER[VARIABLE][{DIGIT}]
 
-        LETTER ::== 'a' | 'b' | 'c' | 'd' | 'e' | 'f' | 'g' | 'h' | 'i' |...
+        LETTER ::== 'a' | 'b' | 'c' | 'd' | 'e' | 'f' | 'g' | 'h' | 'i' | 'j' | 'k' | 'l' | 'm' | 'n' | 'o' | 'p' | 'q' | 'r' | 's' | 't' | 'u' | 'v' | 'w' | 'x' | 'y' | 'z'
 
         DIGIT ::== '1' | '2' | '3' | '4' | '5' | '6' | '7' | '8' | '9' | '0'
 
@@ -67,4 +67,4 @@ EBNF
 
         MASC-VARIABLE ::== MASC[{VARIABLE}]
 
-        MASC ::== 'A' | 'B' | 'C' | 'D' | 'E' | 'F' | 'G' | 'H' | 'I' |...
+        MASC ::== 'A' | 'B' | 'C' | 'D' | 'E' | 'F' | 'G' | 'H' | 'I' | 'J' | 'K' | 'L' | 'M' | 'N' | 'O' | 'P' | 'Q' | 'R' | 'S' | 'T' | 'U' | 'V' | 'W' | 'X' | 'Y' | 'Z'
