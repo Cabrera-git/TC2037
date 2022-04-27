@@ -11,7 +11,7 @@ Escribe la notación BNF y EBNF para la gramática necesaria para definir modulo
 
 BNF
     Functions
-        <function> ::== def <variable>(<variable-expression>), do: <single-function-expression> end | def <variable>(<variable-expresson>) do <function-expression> | def <variable>, do: <single-function-expression> end | def <variable> do <function-expression>
+        <function> ::== def <variable>(<variable-expression>), do: <single-function-expression> end | def <variable>(<variable-expresson>) do <function-expression> end | def <variable>, do: <single-function-expression> end | def <variable> do <function-expression> end
 
         <variable> ::== <letter><variable> | _<variable> | <letter> | <letter><number>
 
@@ -31,7 +31,7 @@ BNF
 
         <operator> ::== + | - | / | *
 
-        <function-expression> ::== <single-function-expression><function-expression> end | <single-function-expression>
+        <function-expression> ::== <single-function-expression><function-expression> | <single-function-expression>
 
     Modules
         <module> ::== defmodule <masc-variable> do <mult-function> end
