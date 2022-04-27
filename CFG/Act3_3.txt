@@ -15,7 +15,7 @@ BNF
 
         <variable> ::== <letter><variable> | _<variable> | <letter> | <letter><number>
 
-        <letter> ::== a | b | c | d | e | f | g | h | i | j | k | l | m | n | o | p | q | r | s | t | u | v | w | x | y | z 
+        <letter> ::== a | b | c | d | e | f | g | h | i |...
 
         <number> ::== <digit> | <digit><number>
 
@@ -34,7 +34,11 @@ BNF
         <function-expression> ::== <single-function-expression><function-expression> end | <single-function-expression>
 
     Modules
-        <module> ::== defmodule <variable> do <mult-function> end
+        <module> ::== defmodule <masc-variable> do <mult-function> end
+
+        <masc-variable> ::== <masc><variable>
+
+        <masc> ::== A | B | C | D | E | F | G | H | I |...
 
         <mult-function> ::== <function> | <function> end <mult-function>
 
@@ -44,7 +48,7 @@ EBNF
 
         VARIABLE ::== [{'_'}]LETTER[VARIABLE][{DIGIT}]
 
-        LETTER ::== 'a' | 'b' | 'c' | 'd' | 'e' | 'f' | 'g' | 'h' | 'i' | 'j' | 'k' | 'l' | 'm' | 'n' | 'o' | 'p' | 'q' | 'r' | 's' | 't' | 'u' | 'v' | 'w' | 'x' | 'y' | 'z' 
+        LETTER ::== 'a' | 'b' | 'c' | 'd' | 'e' | 'f' | 'g' | 'h' | 'i' |...
 
         DIGIT ::== '1' | '2' | '3' | '4' | '5' | '6' | '7' | '8' | '9' | '0'
 
@@ -59,4 +63,8 @@ EBNF
         OPERATOR ::== '+' | '-' | '/' | '*'
 
     Modules
-        MODULE ::== defmodule VARIABLE do {FUNCTION} end
+        MODULE ::== defmodule MASC-VARIABLE do {FUNCTION} end
+
+        MASC-VARIABLE ::== MASC[{VARIABLE}]
+
+        MASC ::== 'A' | 'B' | 'C' | 'D' | 'E' | 'F' | 'G' | 'H' | 'I' |...
