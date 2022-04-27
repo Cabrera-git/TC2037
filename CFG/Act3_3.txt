@@ -13,7 +13,7 @@ BNF
     Functions
         <function> ::== def <variable>(<variable-expression>), do: <single-function-expression> end | def <variable>(<variable-expresson>) do <function-expression> | def <variable>, do: <single-function-expression> end | def <variable> do <function-expression>
 
-        <variable> ::== <letter><variable> | _<variable> | <letter> | <lette\><number>
+        <variable> ::== <letter><variable> | _<variable> | <letter> | <letter><number>
 
         <letter> ::== a | b | c | d | e | f | g | h | i | j | k | l | m | n | o | p | q | r | s | t | u | v | w | x | y | z 
 
@@ -40,7 +40,23 @@ BNF
 
 EBNF
     Functions
-        function ::==
+        FUNCTION ::== def VARIABLE VAR-EXPRESSION, do: FUNC-EXPRESSION end | def VARIABLE VAR-EXPRESSION do {FUNC-EXPRESSION} end
+
+        VARIABLE ::== [{'_'}]LETTER[VARIABLE][{DIGIT}]
+
+        LETTER ::== 'a' | 'b' | 'c' | 'd' | 'e' | 'f' | 'g' | 'h' | 'i' | 'j' | 'k' | 'l' | 'm' | 'n' | 'o' | 'p' | 'q' | 'r' | 's' | 't' | 'u' | 'v' | 'w' | 'x' | 'y' | 'z' 
+
+        DIGIT ::== '1' | '2' | '3' | '4' | '5' | '6' | '7' | '8' | '9' | '0'
+
+        VAR-EXPRESSION ::== VARIABLE[','{VARIABLE}]
+
+        FUNC-EXPRESSION ::== {{DIGIT} | VARIABLE | {{DIGIT}OPERATION} | {REAL{OPERATION}} | true | false | {FUNC_EXPRESSION}}
+
+        REAL ::== {DIGIT}'.'{DIGIT}
+
+        OPERATION ::== OPERATOR{DIGITS} | OPERATOR REAL
+
+        OPERATOR ::== '+' | '-' | '/' | '*'
 
     Modules
-        module ::==
+        MODULE ::== defmodule VARIABLE do {FUNCTION} end
