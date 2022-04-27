@@ -13,7 +13,7 @@ BNF
     Functions
         <function> ::== def <variable>(<variable-expression>), do: <single-function-expression> end | def <variable>(<variable-expresson>) do <function-expression> end | def <variable>, do: <single-function-expression> end | def <variable> do <function-expression> end
 
-        <variable> ::== <letter><variable> | _<variable> | <letter> | <letter><number>
+        <variable> ::== <letter><variable> | _<variable> | <letter> | <letter><number> | <masc><number>
 
         <letter> ::== a | b | c | d | e | f | g | h | i | j | k | l | m | n | o | p | q | r | s | t | u | v | w | x | y | z
 
