@@ -28,23 +28,22 @@ defmodule Rotate do
                 [h | t] = lst
                 lst1 = t ++ [h]
                 Rotate.rotate_left(n-1,lst1)
-            0 = n ->
+            n == 0 ->
                 lst
-            [] = lst ->
+            [] == lst ->
                 lst
         end
     end
 
     def size(lst,c \\ 0) do
-        [h | t] = lst
-
-        if [] = t
-            c
+        unless [] == lst do
+            Rotate.size(tl(lst),c+1)
         else
-            Rotate.size(t,c+1)
+            c
         end
     end
 end
+
 
 IO.inspect(Rotate.rotate_left(3,[1,2,3,4,5,6,7,8,9,0]))
 IO.inspect(Rotate.rotate_left(-3,[1,2,3,4,5,6,7,8,9,0]))
