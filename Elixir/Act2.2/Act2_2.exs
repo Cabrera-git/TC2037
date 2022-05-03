@@ -8,14 +8,14 @@
 
 defmodule Insert do
     def insert(n,lst) do
-        List.insert_at(lst,Insert.insert_counter(n,lst,0),n)
+        List.insert_at(lst,Insert.insert_counter(n,lst),n)
     end
 
-    def insert_counter(n,lst,c) do
+    def insert_counter(n,lst,c \\ 0) do
         cond do
             n > List.first(lst) ->
                 Insert.insert_counter(n,tl(lst),c+1)
-            n < List.first(lst) ->
+            n <= List.first(lst) ->
                 c
         end
     end
@@ -27,7 +27,7 @@ IO.inspect(Insert.insert(4,[1,2,3,7,8,16]))
 
 defmodule Sort do
     def insertion_sort(lst) do
-        Sort.insert_sort(lst, Sort.size(lst))
+        Sort.insert_sort(lst,Sort.size(lst),[hd(lst)])
     end
 
     def size(lst,c \\ 0) do
@@ -38,17 +38,16 @@ defmodule Sort do
         end
     end
 
-    def insert_sort(lst,c) do
-        [h | t] = lst
+    def insert_sort(lst,c,lst1) do
         unless c == 0 do
-            Sort.insert_sort(Insert.insert(h,t),c-1)
+            Sort.insert_sort(tl(lst),c-1,Insert.insert(hd(lst),lst1))
         else
-            lst
+            lst1
         end
     end
 end
 
-IO.inspect(Sort.insertion_sort([9,8,7,6,5,4,3,2,1,0]))
+IO.inspect(Sort.insertion_sort([25,234,65,67,2,3]))
 
 # 3.- Rotate.rotate_left(n,lst) mueve los elementos de una lista lst un número n de espacios hacia la izquierda, si n es negativo los mueve a la derecha
 
