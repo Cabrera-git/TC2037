@@ -1,3 +1,9 @@
+# Actividad 2.2
+# 
+# Emiliano Cabrera - A01025453
+# Do Hyun Nam - A01025276
+# 2022-05-03
+
 # 1.- Insert.insert(n,lst) ingresa un elemento n dentro de una lista ordenada lst
 
 defmodule Insert do
@@ -17,13 +23,40 @@ end
 
 IO.inspect(Insert.insert(4,[1,2,3,7,8,16]))
 
+# 2.- Sort.insertion_sort(lst) regresa una lista nueva con los elementos de lst ordenados de manera ascendente
+
+defmodule Sort do
+    def insertion_sort(lst) do
+        Sort.insert_sort(lst, Sort.size(lst))
+    end
+
+    def size(lst,c \\ 0) do
+        unless [] == lst do
+            Sort.size(tl(lst),c+1)
+        else
+            c
+        end
+    end
+
+    def insert_sort(lst,c) do
+        [h | t] = lst
+        unless c == 0 do
+            Sort.insert_sort(Insert.insert(h,t),c-1)
+        else
+            lst
+        end
+    end
+end
+
+IO.inspect(Sort.insertion_sort([9,8,7,6,5,4,3,2,1,0]))
+
 # 3.- Rotate.rotate_left(n,lst) mueve los elementos de una lista lst un número n de espacios hacia la izquierda, si n es negativo los mueve a la derecha
 
 defmodule Rotate do
     def rotate_left(n,lst) do
         cond do
             n < 0 ->
-                Rotate.rotate_left(Rotate.size(lst)+n,lst)
+                Rotate.rotate_left(Sort.size(lst)+n,lst)
             n > 0 ->
                 [h | t] = lst
                 lst1 = t ++ [h]
@@ -32,14 +65,6 @@ defmodule Rotate do
                 lst
             [] == lst ->
                 lst
-        end
-    end
-
-    def size(lst,c \\ 0) do
-        unless [] == lst do
-            Rotate.size(tl(lst),c+1)
-        else
-            c
         end
     end
 end
