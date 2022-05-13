@@ -72,7 +72,8 @@ end
 IO.inspect(Rotate.rotate_left(3,[1,2,3,4,5,6,7,8,9,0]))
 IO.inspect(Rotate.rotate_left(-3,[1,2,3,4,5,6,7,8,9,0]))
 
-# 10.- 
+# 10.- Encode.encode(lst) devuelve una lista con una descripción de lst de forma (n,e), donde n es la cantidad de elementos e que se encuentran consecutivos
+
 defmodule Encode do
     def encode([]), do: []
   def encode(list), do: do_encode(list, nil, 0, []) # nil es null
