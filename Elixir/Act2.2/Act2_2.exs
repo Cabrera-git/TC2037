@@ -71,3 +71,25 @@ end
 
 IO.inspect(Rotate.rotate_left(3,[1,2,3,4,5,6,7,8,9,0]))
 IO.inspect(Rotate.rotate_left(-3,[1,2,3,4,5,6,7,8,9,0]))
+
+# 10.- 
+defmodule Encode do
+    def encode([]), do: []
+  def encode(list), do: do_encode(list, nil, 0, []) # nil es null
+
+  defp do_encode([], prev, n, build), do: Enum.reverse([{n, prev} | build])   #return=build prev=hdp
+  defp do_encode([head | tail], prev, n, build) do
+    if head == prev do
+      do_encode(tail, prev, n + 1, build)
+    else
+      if prev == nil do
+        do_encode(tail, head, 1, build)
+      else
+        do_encode(tail, head, 1, [{n, prev} | build])
+      end
+    end
+  end
+end
+
+  IO.inspect(Encode.encode([]))
+  IO.inspect(Encode.encode([1,1,2,3,3,3,4,4,5,6,7,5,6,1]))
