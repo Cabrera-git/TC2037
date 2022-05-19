@@ -6,8 +6,7 @@
 
 defmodule Reader do
     def file() do
-        {:ok, contents} = File.read("./Elixir/Act3_4/test.cpp")
-        contents
+        File.read!("./Elixir/Act3_4/test.cpp")
     end
 
     def file_lt() do
@@ -170,49 +169,50 @@ end
 
 defmodule Parser do
     def word_lexer(line) do
-        [h|t] = line
         cond do
-            nil == line ->
+            [] == line ->
+                ""
+            "" == hd(line) ->
                 ""
             Type.is_include?(hd(line)) ->
-                "<span class=include" ++ h ++ "</span>" ++ Parser.word_lexer(t)
+                "<span class=include>" <> hd(line) <> "</span>" <> Parser.word_lexer(tl(line))
             Type.is_reserved?(hd(line)) ->
-                "<span class=reserved" ++ h ++ "</span>" ++ Parser.word_lexer(t)
+                "<span class=reserved>" <> hd(line) <> "</span>" <> Parser.word_lexer(tl(line))
             Type.is_id?(hd(line)) ->
-                "<span class=id" ++ h ++ "</span>" ++ Parser.word_lexer(t)
+                "<span class=id>" <> hd(line) <> "</span>" <> Parser.word_lexer(tl(line))
             Type.is_int?(hd(line)) ->
-                "<span class=int" ++ h ++ "</span>" ++ Parser.word_lexer(t)
+                "<span class=int>" <> hd(line) <> "</span>" <> Parser.word_lexer(tl(line))
             Type.is_real?(hd(line)) ->
-                "<span class=real" ++ h ++ "</span>" ++ Parser.word_lexer(t)
+                "<span class=real>" <> hd(line) <> "</span>" <> Parser.word_lexer(tl(line))
             Type.is_op?(hd(line)) ->
-                "<span class=op" ++ h ++ "</span>" ++ Parser.word_lexer(t)
+                "<span class=op>" <> hd(line) <> "</span>" <> Parser.word_lexer(tl(line))
             Type.is_string?(hd(line)) ->
-                "<span class=string" ++ h ++ "</span>" ++ Parser.word_lexer(t)
+                "<span class=string>" <> hd(line) <> "</span>" <> Parser.word_lexer(tl(line))
             Type.is_comment?(hd(line)) ->
-                "<span class=comment" ++ h ++ "</span>" ++ Parser.word_lexer(t)
+                "<span class=comment>" <> hd(line) <> "</span>" <> Parser.word_lexer(tl(line))
             Type.is_punctuation?(hd(line)) ->
-                "<span class=punctuation" ++ h ++ "</span>" ++ Parser.word_lexer(t)
+                "<span class=punctuation>" <> hd(line) <> "</span>" <> Parser.word_lexer(tl(line))
             Type.is_opening_parenthesis?(hd(line)) ->
-                "<span class=parenthesis" ++ h ++ "</span>" ++ Parser.word_lexer(t)
+                "<span class=parenthesis>" <> hd(line) <> "</span>" <> Parser.word_lexer(tl(line))
             Type.is_closing_parenthesis?(hd(line)) ->
-                "<span class=parenthesis" ++ h ++ "</span>" ++ Parser.word_lexer(t)
+                "<span class=parenthesis>" <> hd(line) <> "</span>" <> Parser.word_lexer(tl(line))
             Type.is_opening_bracket?(hd(line)) ->
-                "<span class=bracket" ++ h ++ "</span>" ++ Parser.word_lexer(t)
+                "<span class=bracket>" <> hd(line) <> "</span>" <> Parser.word_lexer(tl(line))
             Type.is_closing_bracket?(hd(line)) ->
-                "<span class=bracket" ++ h ++ "</span>" ++ Parser.word_lexer(t)
+                "<span class=bracket>" <> hd(line) <> "</span>" <> Parser.word_lexer(tl(line))
             true ->
-                h ++ Parser.word_lexer(t)
+                hd(line) <> Parser.word_lexer(tl(line))
         end
     end
 end
 
 defmodule HTML do
     def html_head() do
-        "<!DOCTYPE html><html lang=\"es\"><head><meta charset=\"UTF-8\"><title>Analizador Lexico</title><link href=\"styles.css\" rel=\"stylesheet\"></head><body>" ++ Parser.word_lexer(String.split(Reader.file_br))
+        "<!DOCTYPE html><html lang=\"es\"><head><meta charset=\"UTF-8\"><title>Analizador Lexico</title><link href=\"styles.css\" rel=\"stylesheet\"></head><body>" <> Parser.word_lexer(String.split(Reader.file_br()))
     end
 
     def html() do
-        HTML.html_head() ++ "</body></html>"
+        HTML.html_head() <> "</body></html>"
     end
 
     def test() do
