@@ -220,5 +220,4 @@ defmodule HTML do
     end
 end
 
-# HTML.test()
-IO.puts String.split(Reader.file_br)
+HTML.test()
