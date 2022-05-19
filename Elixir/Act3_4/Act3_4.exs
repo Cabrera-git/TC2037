@@ -121,7 +121,51 @@ defmodule Type do
             true ->
                 false
         end                
-    end    
+    end
+    
+    def is_opening_parenthesis?(atom) do
+        cond do
+            nil == atom ->
+                false
+            Regex.match?(~r/^[(]+$/,atom) ->
+                true
+            true ->
+                false
+        end                
+    end
+    
+    def is_closing_parenthesis?(atom) do
+        cond do
+            nil == atom ->
+                false
+            Regex.match?(~r/^[)]+$/,atom) ->
+                true
+            true ->
+                false
+        end                
+    end
+    
+    def is_opening_bracket?(atom) do
+        cond do
+            nil == atom ->
+                false
+            Regex.match?(~r/^[{]+$/,atom) ->
+                true
+            true ->
+                false
+        end                
+    end
+    
+    def is_closing_bracket?(atom) do
+        cond do
+            nil == atom ->
+                false
+            Regex.match?(~r/^[}]+$/,atom) ->
+                true
+            true ->
+                false
+        end                
+    end
 end
 
 defmodule Parser do
@@ -133,21 +177,29 @@ defmodule Parser do
             Type.is_include?(hd(line)) ->
                 "<span class=include" ++ h ++ "</span>" ++ Parser.word_lexer(t)
             Type.is_reserved?(hd(line)) ->
-                "<span class=include" ++ h ++ "</span>" ++ Parser.word_lexer(t)
+                "<span class=reserved" ++ h ++ "</span>" ++ Parser.word_lexer(t)
             Type.is_id?(hd(line)) ->
-                "<span class=include" ++ h ++ "</span>" ++ Parser.word_lexer(t)
+                "<span class=id" ++ h ++ "</span>" ++ Parser.word_lexer(t)
             Type.is_int?(hd(line)) ->
-                "<span class=include" ++ h ++ "</span>" ++ Parser.word_lexer(t)
+                "<span class=int" ++ h ++ "</span>" ++ Parser.word_lexer(t)
             Type.is_real?(hd(line)) ->
-                "<span class=include" ++ h ++ "</span>" ++ Parser.word_lexer(t)
+                "<span class=real" ++ h ++ "</span>" ++ Parser.word_lexer(t)
             Type.is_op?(hd(line)) ->
-                "<span class=include" ++ h ++ "</span>" ++ Parser.word_lexer(t)
+                "<span class=op" ++ h ++ "</span>" ++ Parser.word_lexer(t)
             Type.is_string?(hd(line)) ->
-                "<span class=include" ++ h ++ "</span>" ++ Parser.word_lexer(t)
+                "<span class=string" ++ h ++ "</span>" ++ Parser.word_lexer(t)
             Type.is_comment?(hd(line)) ->
-                "<span class=include" ++ h ++ "</span>" ++ Parser.word_lexer(t)
+                "<span class=comment" ++ h ++ "</span>" ++ Parser.word_lexer(t)
             Type.is_punctuation?(hd(line)) ->
-                "<span class=include" ++ h ++ "</span>" ++ Parser.word_lexer(t)
+                "<span class=punctuation" ++ h ++ "</span>" ++ Parser.word_lexer(t)
+            Type.is_opening_parenthesis?(hd(line)) ->
+                "<span class=parenthesis" ++ h ++ "</span>" ++ Parser.word_lexer(t)
+            Type.is_closing_parenthesis?(hd(line)) ->
+                "<span class=parenthesis" ++ h ++ "</span>" ++ Parser.word_lexer(t)
+            Type.is_opening_bracket?(hd(line)) ->
+                "<span class=bracket" ++ h ++ "</span>" ++ Parser.word_lexer(t)
+            Type.is_closing_bracket?(hd(line)) ->
+                "<span class=bracket" ++ h ++ "</span>" ++ Parser.word_lexer(t)
             true ->
                 h ++ Parser.word_lexer(t)
         end
@@ -169,4 +221,4 @@ defmodule HTML do
 end
 
 # HTML.test()
-IO.inspect String.split(Reader.file_br)
+IO.puts String.split(Reader.file_br)
