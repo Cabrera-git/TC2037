@@ -9,7 +9,7 @@ body {
   }
   
   .id {
-      color: darkgreen;
+    color: darkgreen;
   }
 
   .reserved {
@@ -38,4 +38,12 @@ body {
 
   .punctuation {
       color: lightcoral;
+  }
+
+  .parenthesis {
+      color: rgb(255, 77, 77);
+  }
+
+  .bracket {
+      color: rgb(255, 211, 77);
   }
