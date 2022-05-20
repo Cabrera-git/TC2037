@@ -112,13 +112,13 @@
       [(is-int? (car lst)) (string-append (string-append (string-append "<span class=int> " (car lst)) " </span>") (word-lexer (cdr lst)))]
       [(is-real? (car lst)) (string-append (string-append (string-append "<span class=real> " (car lst)) " </span>") (word-lexer (cdr lst)))]
       [(is-op? (car lst)) (string-append (string-append (string-append "<span class=op> " (car lst)) " </span>") (word-lexer (cdr lst)))]
-      [(is-string? (car lst)) (string-append (string-append (string-append "<span class=string> " (car lst)) " </span>") (word-lexer (cdr lst)))]
-      [(is-comment? (car lst)) (string-append (string-append (string-append "<span class=comment> " (car lst)) " </span>") (word-lexer (cdr lst)))]
-      [(is-punctuation? (car lst)) (string-append (string-append (string-append "<span class=punctuation> " (car lst)) " </span>") (word-lexer (cdr lst)))]
       [(is-opening-parenthesis? (car lst)) (string-append (string-append (string-append "<span class=parenthesis> " (car lst)) " </span>") (word-lexer (cdr lst)))]
       [(is-closing-parenthesis? (car lst)) (string-append (string-append (string-append "<span class=parenthesis> " (car lst)) " </span>") (word-lexer (cdr lst)))]
       [(is-opening-bracket? (car lst)) (string-append (string-append (string-append "<span class=bracket> " (car lst)) " </span>") (word-lexer (cdr lst)))]
       [(is-closing-bracket? (car lst)) (string-append (string-append (string-append "<span class=bracket> " (car lst)) " </span>") (word-lexer (cdr lst)))]
+      [(is-string? (car lst)) (string-append (string-append (string-append "<span class=string> " (car lst)) " </span>") (word-lexer (cdr lst)))]
+      [(is-comment? (car lst)) (string-append (string-append (string-append "<span class=comment> " (car lst)) " </span>") (word-lexer (cdr lst)))]
+      [(is-punctuation? (car lst)) (string-append (string-append (string-append "<span class=punctuation> " (car lst)) " </span>") (word-lexer (cdr lst)))]
       [else (string-append (car lst) (word-lexer (cdr lst)))])))
 
 (define html-head (string-append "<!DOCTYPE html><html lang=\"es\"><head><meta charset=\"UTF-8\"><title>Analizador Lexico</title><link href=\"styles.css\" rel=\"stylesheet\"></head><body>
