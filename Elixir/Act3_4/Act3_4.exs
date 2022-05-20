@@ -18,7 +18,7 @@ defmodule Reader do
     end
 
     def file_br() do
-        String.replace(Reader.file_gt(),"\n","<br>")
+        String.replace(Reader.file_gt(),"\n","º<br>º")
     end
 
     def file_sp() do
@@ -211,15 +211,28 @@ defmodule Type do
                 false
         end                
     end
+    
+    def is_break?(atom) do
+        cond do
+            nil == atom ->
+                false
+            Regex.match?(~r/<br>/,atom) ->
+                true
+            true ->
+                false
+        end                
+    end
 end
 
 defmodule Parser do
-    def word_lexer(line) do
+    def word_lexer(line, comment \\ false) do
         cond do
             [] == line ->
                 ""
-            Type.is_comment?(hd(line))->
-                "<span class=\"comment\">" <> hd(line) <> "</span>" <> Parser.word_lexer(tl(line))
+            Type.is_break?(hd(line))->
+                hd(line) <> Parser.word_lexer(tl(line), false)
+            Type.is_comment?(hd(line)) || comment ->
+                "<span class=\"comment\">" <> hd(line) <> "</span>" <> Parser.word_lexer(tl(line), true)
             Type.is_punctuation?(hd(line)) ->
                 "<span class=\"punctuation\">" <> hd(line) <> "</span>" <> Parser.word_lexer(tl(line))
             Type.is_opening_parenthesis?(hd(line)) ->
