@@ -18,7 +18,31 @@ defmodule Reader do
     end
 
     def file_br() do
-        String.replace(Reader.file_gt(),"\r\n"," <br> ")
+        String.replace(Reader.file_gt(),"\n"," <br> ")
+    end
+
+    def file_sp() do
+        String.replace(Reader.file_br()," ","¨º")
+    end
+
+    def file_op() do
+        String.replace(Reader.file_sp(),"(","´º")
+    end
+
+    def file_cp() do
+        String.replace(Reader.file_op(),")","`º")
+    end
+
+    def file_ob() do
+        String.replace(Reader.file_cp(),"[","çº")
+    end
+
+    def file_cb() do
+        String.replace(Reader.file_ob(),"]","ñº")
+    end
+
+    def file_sc() do
+        String.replace(Reader.file_cb(),";","¬º")
     end
 end
 
@@ -165,6 +189,28 @@ defmodule Type do
                 false
         end                
     end
+    
+    def is_space?(atom) do
+        cond do
+            nil == atom ->
+                false
+            Regex.match?(~r/¨/,atom) ->
+                true
+            true ->
+                false
+        end                
+    end
+    
+    def is_semicolon?(atom) do
+        cond do
+            nil == atom ->
+                false
+            Regex.match?(~r/;/,atom) ->
+                true
+            true ->
+                false
+        end                
+    end
 end
 
 defmodule Parser do
@@ -175,31 +221,35 @@ defmodule Parser do
             "" == hd(line) ->
                 ""
             Type.is_include?(hd(line)) ->
-                "<span class=include>" <> hd(line) <> "</span>" <> Parser.word_lexer(tl(line))
+                "<span class=\"include\">" <> hd(line) <> "</span>" <> Parser.word_lexer(tl(line))
             Type.is_reserved?(hd(line)) ->
-                "<span class=reserved>" <> hd(line) <> "</span>" <> Parser.word_lexer(tl(line))
+                "<span class=\"reserved\">" <> hd(line) <> "</span>" <> Parser.word_lexer(tl(line))
             Type.is_id?(hd(line)) ->
-                "<span class=id>" <> hd(line) <> "</span>" <> Parser.word_lexer(tl(line))
+                "<span class=\"id\">" <> hd(line) <> "</span>" <> Parser.word_lexer(tl(line))
             Type.is_int?(hd(line)) ->
-                "<span class=int>" <> hd(line) <> "</span>" <> Parser.word_lexer(tl(line))
+                "<span class=\"int\">" <> hd(line) <> "</span>" <> Parser.word_lexer(tl(line))
             Type.is_real?(hd(line)) ->
-                "<span class=real>" <> hd(line) <> "</span>" <> Parser.word_lexer(tl(line))
+                "<span class=\"real\">" <> hd(line) <> "</span>" <> Parser.word_lexer(tl(line))
             Type.is_op?(hd(line)) ->
-                "<span class=op>" <> hd(line) <> "</span>" <> Parser.word_lexer(tl(line))
+                "<span class=\"op\">" <> hd(line) <> "</span>" <> Parser.word_lexer(tl(line))
             Type.is_string?(hd(line)) ->
-                "<span class=string>" <> hd(line) <> "</span>" <> Parser.word_lexer(tl(line))
+                "<span class=\"string\">" <> hd(line) <> "</span>" <> Parser.word_lexer(tl(line))
             Type.is_comment?(hd(line)) ->
-                "<span class=comment>" <> hd(line) <> "</span>" <> Parser.word_lexer(tl(line))
+                "<span class=\"comment\">" <> hd(line) <> "</span>" <> Parser.word_lexer(tl(line))
             Type.is_punctuation?(hd(line)) ->
-                "<span class=punctuation>" <> hd(line) <> "</span>" <> Parser.word_lexer(tl(line))
+                "<span class=\"punctuation\">" <> hd(line) <> "</span>" <> Parser.word_lexer(tl(line))
             Type.is_opening_parenthesis?(hd(line)) ->
-                "<span class=parenthesis>" <> hd(line) <> "</span>" <> Parser.word_lexer(tl(line))
+                "<span class=\"parenthesis\">" <> hd(line) <> "</span>" <> Parser.word_lexer(tl(line))
             Type.is_closing_parenthesis?(hd(line)) ->
-                "<span class=parenthesis>" <> hd(line) <> "</span>" <> Parser.word_lexer(tl(line))
+                "<span class=\"parenthesis\">" <> hd(line) <> "</span>" <> Parser.word_lexer(tl(line))
             Type.is_opening_bracket?(hd(line)) ->
-                "<span class=bracket>" <> hd(line) <> "</span>" <> Parser.word_lexer(tl(line))
+                "<span class=\"bracket\">" <> hd(line) <> "</span>" <> Parser.word_lexer(tl(line))
             Type.is_closing_bracket?(hd(line)) ->
-                "<span class=bracket>" <> hd(line) <> "</span>" <> Parser.word_lexer(tl(line))
+                "<span class=\"bracket\">" <> hd(line) <> "</span>" <> Parser.word_lexer(tl(line))
+            Type.is_semicolon?(hd(line)) ->
+                "<span class=\"semicolon\">" <> hd(line) <> "</span>" <> Parser.word_lexer(tl(line))
+            Type.is_space?(hd(line)) ->
+                " " <> Parser.word_lexer(tl(line))
             true ->
                 hd(line) <> Parser.word_lexer(tl(line))
         end
@@ -208,15 +258,40 @@ end
 
 defmodule HTML do
     def html_head() do
-        "<!DOCTYPE html><html lang=\"es\"><head><meta charset=\"UTF-8\"><title>Analizador Lexico</title><link href=\"styles.css\" rel=\"stylesheet\"></head><body>" <> Parser.word_lexer(String.split(Reader.file_br()))
+        "<!DOCTYPE html>
+        <html lang=\"es\">
+        <head><meta charset=\"UTF-8\">
+        <title>Analizador Lexico</title>
+        <link href=\"styles.css\" rel=\"stylesheet\"></head>
+        <body>" <> Parser.word_lexer(String.split(Reader.file_sc(),"º"))
     end
 
     def html() do
         HTML.html_head() <> "</body></html>"
     end
 
+    def replacer() do
+        String.replace(HTML.html(),"´","(")
+    end
+
+    def replacer1() do
+        String.replace(HTML.replacer(),"`",")")
+    end
+
+    def replacer2() do
+        String.replace(HTML.replacer1(),"ç","[")
+    end
+
+    def replacer3() do
+        String.replace(HTML.replacer2(),"ñ","]")
+    end
+
+    def replacer4() do
+        String.replace(HTML.replacer3(),"¬",";")
+    end
+
     def test() do
-        File.write("./Elixir/Act3_4/out.html", HTML.html())
+        File.write("./Elixir/Act3_4/out.html", String.replace(HTML.replacer4(),"¨"," "))
     end
 end
 
