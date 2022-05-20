@@ -95,7 +95,7 @@ defmodule Type do
         cond do
             nil == atom ->
                 false
-            Regex.match?(~r/[\/][\/][ a-zA-Z_0-9]*;?/,atom) ->
+            Regex.match?(~r/[\/][\/]/,atom) ->
                 true
             true ->
                 false
@@ -218,6 +218,8 @@ defmodule Parser do
         cond do
             [] == line ->
                 ""
+            Type.is_comment?(hd(line))->
+                "<span class=\"comment\">" <> hd(line) <> "</span>" <> Parser.word_lexer(tl(line))
             Type.is_punctuation?(hd(line)) ->
                 "<span class=\"punctuation\">" <> hd(line) <> "</span>" <> Parser.word_lexer(tl(line))
             Type.is_opening_parenthesis?(hd(line)) ->
@@ -244,8 +246,6 @@ defmodule Parser do
                 "<span class=\"op\">" <> hd(line) <> "</span>" <> Parser.word_lexer(tl(line))
             Type.is_string?(hd(line)) ->
                 "<span class=\"string\">" <> hd(line) <> "</span>" <> Parser.word_lexer(tl(line))
-            Type.is_comment?(hd(line)) ->
-                "<span class=\"comment\">" <> hd(line) <> "</span>" <> Parser.word_lexer(tl(line))
             Type.is_space?(hd(line)) ->
                 " " <> Parser.word_lexer(tl(line))
             true ->
