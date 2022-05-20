@@ -3,7 +3,7 @@
 ;https://github.com/saidortigoza/ResaltadorSintaxis_TC2037
 (require 2htdp/batch-io)
 
-(define file (read-file "test.cpp"))
+(define file (read-file "./Racket/Act3_4/v2/test.cpp"))
 
 (define file-lt (string-replace file "<" "&lt"))
 
@@ -126,5 +126,5 @@
 
 (define html (string-append html-head "</body></html>"))
 
-(define test (write-file "out.html" html))
+(define test (write-file "./Racket/Act3_4/v2/out.html" html))
 

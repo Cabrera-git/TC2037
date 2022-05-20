@@ -47,3 +47,7 @@ body {
   .bracket {
       color: rgb(255, 211, 77);
   }
+
+  .semicolon {
+    color: rgb(70,255,30);
+  }

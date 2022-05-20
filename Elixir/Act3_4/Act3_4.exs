@@ -18,31 +18,31 @@ defmodule Reader do
     end
 
     def file_br() do
-        String.replace(Reader.file_gt(),"\n"," <br> ")
+        String.replace(Reader.file_gt(),"\n","º<br>º")
     end
 
     def file_sp() do
-        String.replace(Reader.file_br()," ","¨º")
+        String.replace(Reader.file_br()," ","º&spº")
     end
 
     def file_op() do
-        String.replace(Reader.file_sp(),"(","´º")
+        String.replace(Reader.file_sp(),"(","º&opº")
     end
 
     def file_cp() do
-        String.replace(Reader.file_op(),")","`º")
+        String.replace(Reader.file_op(),")","º&cpº")
     end
 
     def file_ob() do
-        String.replace(Reader.file_cp(),"[","çº")
+        String.replace(Reader.file_cp(),"[","º&obº")
     end
 
     def file_cb() do
-        String.replace(Reader.file_ob(),"]","ñº")
+        String.replace(Reader.file_ob(),"]","º&cbº")
     end
 
     def file_sc() do
-        String.replace(Reader.file_cb(),";","¬º")
+        String.replace(Reader.file_cb(),";","º&scº")
     end
 end
 
@@ -95,7 +95,7 @@ defmodule Type do
         cond do
             nil == atom ->
                 false
-            Regex.match?(~r/[\/][\/][ a-zA-Z_0-9]*;?/,atom) ->
+            Regex.match?(~r/[\/][\/]/,atom) ->
                 true
             true ->
                 false
@@ -150,7 +150,7 @@ defmodule Type do
         cond do
             nil == atom ->
                 false
-            Regex.match?(~r/^[(]+$/,atom) ->
+            Regex.match?(~r/&op/,atom) ->
                 true
             true ->
                 false
@@ -161,7 +161,7 @@ defmodule Type do
         cond do
             nil == atom ->
                 false
-            Regex.match?(~r/^[)]+$/,atom) ->
+            Regex.match?(~r/&cp/,atom) ->
                 true
             true ->
                 false
@@ -172,7 +172,7 @@ defmodule Type do
         cond do
             nil == atom ->
                 false
-            Regex.match?(~r/^[{]+$/,atom) ->
+            Regex.match?(~r/&ob/,atom) ->
                 true
             true ->
                 false
@@ -183,7 +183,7 @@ defmodule Type do
         cond do
             nil == atom ->
                 false
-            Regex.match?(~r/^[}]+$/,atom) ->
+            Regex.match?(~r/&cb/,atom) ->
                 true
             true ->
                 false
@@ -194,7 +194,7 @@ defmodule Type do
         cond do
             nil == atom ->
                 false
-            Regex.match?(~r/¨/,atom) ->
+            Regex.match?(~r/&sp/,atom) ->
                 true
             true ->
                 false
@@ -205,7 +205,18 @@ defmodule Type do
         cond do
             nil == atom ->
                 false
-            Regex.match?(~r/;/,atom) ->
+            Regex.match?(~r/&sc/,atom) ->
+                true
+            true ->
+                false
+        end                
+    end
+    
+    def is_break?(atom) do
+        cond do
+            nil == atom ->
+                false
+            Regex.match?(~r/<br>/,atom) ->
                 true
             true ->
                 false
@@ -214,12 +225,26 @@ defmodule Type do
 end
 
 defmodule Parser do
-    def word_lexer(line) do
+    def word_lexer(line, comment \\ false) do
         cond do
             [] == line ->
                 ""
-            "" == hd(line) ->
-                ""
+            Type.is_break?(hd(line))->
+                hd(line) <> Parser.word_lexer(tl(line), false)
+            Type.is_comment?(hd(line)) || comment ->
+                "<span class=\"comment\">" <> hd(line) <> "</span>" <> Parser.word_lexer(tl(line), true)
+            Type.is_punctuation?(hd(line)) ->
+                "<span class=\"punctuation\">" <> hd(line) <> "</span>" <> Parser.word_lexer(tl(line))
+            Type.is_opening_parenthesis?(hd(line)) ->
+                "<span class=\"parenthesis\">" <> hd(line) <> "</span>" <> Parser.word_lexer(tl(line))
+            Type.is_closing_parenthesis?(hd(line)) ->
+                "<span class=\"parenthesis\">" <> hd(line) <> "</span>" <> Parser.word_lexer(tl(line))
+            Type.is_opening_bracket?(hd(line)) ->
+                "<span class=\"bracket\">" <> hd(line) <> "</span>" <> Parser.word_lexer(tl(line))
+            Type.is_closing_bracket?(hd(line)) ->
+                "<span class=\"bracket\">" <> hd(line) <> "</span>" <> Parser.word_lexer(tl(line))
+            Type.is_semicolon?(hd(line)) ->
+                "<span class=\"semicolon\">" <> hd(line) <> "</span>" <> Parser.word_lexer(tl(line))
             Type.is_include?(hd(line)) ->
                 "<span class=\"include\">" <> hd(line) <> "</span>" <> Parser.word_lexer(tl(line))
             Type.is_reserved?(hd(line)) ->
@@ -234,20 +259,6 @@ defmodule Parser do
                 "<span class=\"op\">" <> hd(line) <> "</span>" <> Parser.word_lexer(tl(line))
             Type.is_string?(hd(line)) ->
                 "<span class=\"string\">" <> hd(line) <> "</span>" <> Parser.word_lexer(tl(line))
-            Type.is_comment?(hd(line)) ->
-                "<span class=\"comment\">" <> hd(line) <> "</span>" <> Parser.word_lexer(tl(line))
-            Type.is_punctuation?(hd(line)) ->
-                "<span class=\"punctuation\">" <> hd(line) <> "</span>" <> Parser.word_lexer(tl(line))
-            Type.is_opening_parenthesis?(hd(line)) ->
-                "<span class=\"parenthesis\">" <> hd(line) <> "</span>" <> Parser.word_lexer(tl(line))
-            Type.is_closing_parenthesis?(hd(line)) ->
-                "<span class=\"parenthesis\">" <> hd(line) <> "</span>" <> Parser.word_lexer(tl(line))
-            Type.is_opening_bracket?(hd(line)) ->
-                "<span class=\"bracket\">" <> hd(line) <> "</span>" <> Parser.word_lexer(tl(line))
-            Type.is_closing_bracket?(hd(line)) ->
-                "<span class=\"bracket\">" <> hd(line) <> "</span>" <> Parser.word_lexer(tl(line))
-            Type.is_semicolon?(hd(line)) ->
-                "<span class=\"semicolon\">" <> hd(line) <> "</span>" <> Parser.word_lexer(tl(line))
             Type.is_space?(hd(line)) ->
                 " " <> Parser.word_lexer(tl(line))
             true ->
@@ -263,35 +274,39 @@ defmodule HTML do
         <head><meta charset=\"UTF-8\">
         <title>Analizador Lexico</title>
         <link href=\"styles.css\" rel=\"stylesheet\"></head>
-        <body>" <> Parser.word_lexer(String.split(Reader.file_sc(),"º"))
+        <body><pre>" <> Parser.word_lexer(String.split(Reader.file_sc(),"º"))
     end
 
     def html() do
-        HTML.html_head() <> "</body></html>"
+        HTML.html_head() <> "</pre></body></html>"
     end
 
-    def replacer() do
-        String.replace(HTML.html(),"´","(")
+    def replacer_op() do
+        String.replace(HTML.html(),"&op","(")
     end
 
-    def replacer1() do
-        String.replace(HTML.replacer(),"`",")")
+    def replacer_cp() do
+        String.replace(HTML.replacer_op(),"&cp",")")
     end
 
-    def replacer2() do
-        String.replace(HTML.replacer1(),"ç","[")
+    def replacer_ob() do
+        String.replace(HTML.replacer_cp(),"&ob","[")
     end
 
-    def replacer3() do
-        String.replace(HTML.replacer2(),"ñ","]")
+    def replacer_cb() do
+        String.replace(HTML.replacer_ob(),"&cb","]")
     end
 
-    def replacer4() do
-        String.replace(HTML.replacer3(),"¬",";")
+    def replacer_sc() do
+        String.replace(HTML.replacer_cb(),"&sc",";")
+    end
+
+    def replacer_sp() do
+        String.replace(HTML.replacer_sc(),"&sp"," ")
     end
 
     def test() do
-        File.write("./Elixir/Act3_4/out.html", String.replace(HTML.replacer4(),"¨"," "))
+        File.write("./Elixir/Act3_4/out.html", HTML.replacer_sp())
     end
 end
 
