@@ -2,7 +2,6 @@ body {
     font-family: "Courier New", Courier, monospace;
     font-size: 12px;
     font-weight: 600;
-    background-color: grey;
   }
   
   .include {
@@ -47,4 +46,8 @@ body {
 
   .bracket {
       color: rgb(255, 211, 77);
+  }
+
+  .semicolon {
+    color: rgb(70,255,30);
   }
