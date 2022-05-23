@@ -52,7 +52,7 @@ We've made a parser for .cpp files that utilizes Regex matching in order to diff
         end
     end
 ```
-(<em>The entire conditional chunk of the code</em>
+<em>The entire conditional chunk of the code</em>
 
 The above function defines the type of value that is presented. It uses a lot of boolean functions alongside Regex definitions to determine what the value is. An example of the boolean function is presented below.
 
@@ -74,9 +74,54 @@ Once a Regex match is evaluated as true, a string will be returned that resemble
 
 ## Complexity
 
-The parser itself has a linear time complexity of O(n), considering it parses de cpp file line by line identifying with conditionals and regex matching the different identifiers within the language. After a condition and matching is made, then the HTML elements with their respective classes to highlight the syntaxis is replaced and saved within an HTML file. 
+The parser itself has a linear time complexity of O(n), considering it parses de .cpp file line by line identifying with conditionals and regex matching the different identifiers within the language. After a condition and matching is made, then the HTML elements with their respective classes to highlight the syntaxis is replaced and saved within an HTML file. 
 
 As for the reader and HTML functions they present a time complexity of 8\*O(n) and 6\*O(n) respectively. This is due to the fact that the program first replaces all parenthesis, brackets, and, braces before the regex matching, to avoid incorrect string matches. At last, the HTML function re-replaces the placeholding values of these identifiers to be correctly shown on the resulting file. 
+
+```elixir
+    defmodule Reader do
+        def file() do
+            File.read!("./Elixir/Act3_4/test.cpp")
+        end
+
+        def file_lt() do
+            String.replace(Reader.file(),"<","&lt")
+        end
+
+        def file_gt() do
+            String.replace(Reader.file_lt(),">","&gt")
+        end
+
+        def file_br() do
+            String.replace(Reader.file_gt(),"\n","º<br>º")
+        end
+
+        def file_sp() do
+            String.replace(Reader.file_br()," ","º&spº")
+        end
+
+        def file_op() do
+            String.replace(Reader.file_sp(),"(","º&opº")
+        end
+
+        def file_cp() do
+            String.replace(Reader.file_op(),")","º&cpº")
+        end
+
+        def file_ob() do
+            String.replace(Reader.file_cp(),"[","º&obº")
+        end
+
+        def file_cb() do
+            String.replace(Reader.file_ob(),"]","º&cbº")
+        end
+
+        def file_sc() do
+            String.replace(Reader.file_cb(),";","º&scº")
+        end
+    end
+```
+<em>File reading section of the program</em>
 
 ## Conclusion
 
