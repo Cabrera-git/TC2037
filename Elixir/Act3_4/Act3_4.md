@@ -74,41 +74,12 @@ Once a Regex match is evaluated as true, a string will be returned that resemble
 
 ## Complexity
 
+The parser itself has a linear time complexity of O(n), considering it parses de cpp file line by line identifying with conditionals and regex matching the different identifiers within the language. After a condition and matching is made, then the HTML elements with their respective classes to highlight the syntaxis is replaced and saved within an HTML file. 
 
-<!-- 
-
-Esto es ejemplo de Andrew y Juan, me pasaron el doc para copiar. Borralo when you are done
-
-The program holds a time complexity of O(n) as the execution time depends on the length of the file stream. Our file uses a pipeline which always holds an O(n) time complexity by mapping the file stream and recursively operating it, filtering out nil values, and then generating the html document with the resulting string built with every recursive step.
-
-```elixir
-  def get_lines(in_filename, out_filename) do
-    expr =
-      in_filename
-      |> File.stream!()
-      |> Enum.map(&token_from_line/1)
-      |> Enum.filter(&(&1 != nil))
-    tmp = "<!DOCTYPE html>\n<html>\n\t<head>\n\t\t<title>JSON Code</title>\n\t\t<link rel='stylesheet' href='token_colors.css'>\n\t</head>\n\t<body>\n\t\t<h1>Date: #{DateTime.utc_now}</h1>\n\t\t<pre>\n\t\t\t#{expr}\n\t\t\t</pre>\n\t</body>\n</html>"
-    expr = tmp
-    File.write(out_filename, expr)
-  end
-```
-##### (<em>Don't mind our brute force solution for generating the html page.</em>)
-
-By implementing tail recursion, space complexity is reduced to O(1) complexity as stack frames are disposed of in each step.
-
-```elixir
-  def token_from_line(line) do
-    token_from_line(line,"",false,true)
-  end
-```
-
-As for the code itself, as seen in the regex example previously, every regex match/run operation has O(n) time complexity, as the match depends on the length of the line being evaluated. By pattern matching to obtain the regex match tail, time complexity is still O(n), as a simple head | tail pattern match of the regex expression has O(1) compelxity. The same holds for Regex.split operations, as the same pattern match of the regex evaluation of a line occurs. -->
+As for the reader and HTML functions they present a time complexity of 8\*O(n) and 6\*O(n) respectively. This is due to the fact that the program first replaces all parenthesis, brackets, and, braces before the regex matching, to avoid incorrect string matches. At last, the HTML function re-replaces the placeholding values of these identifiers to be correctly shown on the resulting file. 
 
 ## Conclusion
 
-<!-- 
+The program works and reaches the given objectives successfuly, considering the lenght of the files to be parsed, the time complexity doesn't imply a much bigger difference on the results. 
+Although certainly, the program has room to improve in efficiency, as the Reader and HTML functions could be avoided when using more strict and specific regex matching. With this in mind, it would be a possibility to make the whole program's time complexity to O(n), which implies that it solely depends on the length of the file to be parsed. 
 
-Esto es ejemplo de Andrew y Juan, me pasaron el doc para copiar. Borralo when you are done
-
-We believe this approach can be very efficient in contrast to using, ie. String.replace method for generating the resulting html file, which would imply an O(n^2) complexity. By implementing tail recursion with purely linear and constant operations, our program execution time soley depends on the length of the file. This in turn let us extract tokens with ease by using pattern matching with the same expression, and execute operations in a sequential manner for every regex match case. -->
