@@ -310,4 +310,8 @@ defmodule HTML do
     end
 end
 
+# run the function
 HTML.test()
+
+# time function runtime
+# IO.inspect(:timer.tc(fn -> HTML.test() end) |> elem(0) |> Kernel./(1000000))
