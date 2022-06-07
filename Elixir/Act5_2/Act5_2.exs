@@ -20,24 +20,29 @@ defmodule Hw.Primes do
         end
     end
 
-    # def sum_primes_parallel(lim, thr) do
-    #     bin_size = Kernel.div(lim,thr)
+    def sum_primes_parallel(lim, thr) do
+        bin_size = Kernel.div(lim,thr)
 
-    #     1..thr
-    #     |> Enum.map(&Task.async(fn -> parallel_sum(bin_size) end))
-    #     |> Enum.map(&Task.await(&1))
-    #     |> Enum.sum()
-    #     |> IO.inspect()
-    # end
-
-    def parallel_sum(low,upp) do
-        Enum.to_list(low,upp) 
-        |> (fn x -> 
-                if !prime?(x) do 
-                    List.delete(x)
-                end
-            end)
+        1..thr
+        |> Enum.map(&Task.async(fn -> parallel_sum(bin_size) end))
+        |> Enum.map(&Task.await(&1))
         |> Enum.sum()
+        |> IO.inspect()
+    end
+
+    def parallel_sum(lower, upper, sum \\ 0) do
+        cond do
+            lower >= upper ->
+                if prime?(lower) do
+                    sum+lower
+                else
+                    sum
+                end
+            prime?(lower) ->
+                parallel_sum(lower+1,upper,sum+lower)
+            !prime?(lower) -> 
+                parallel_sum(lower+1,upper,sum)
+        end
     end
 
     defp prime?(n, i \\ 2) do
@@ -57,4 +62,4 @@ defmodule Hw.Primes do
 end
 
 # IO.inspect(Hw.Primes.sum_primes(5000000))
-IO.inspect(Hw.Primes.parallel_sum(1,10))
+IO.inspect(Hw.Primes.parallel_sum(5000000,8))
