@@ -11,7 +11,7 @@ defmodule Hw.Primes do
         |> :timer.tc()
         |> elem(0)
         |> Kernel./(1_000_000)
-  end
+    end
 
     def sum_primes(lim, current \\ 2, sum \\ 0) do
         cond do
