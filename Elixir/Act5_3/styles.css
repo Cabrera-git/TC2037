@@ -1,0 +1,53 @@
+body {
+    font-family: "Courier New", Courier, monospace;
+    font-size: 12px;
+    font-weight: 600;
+  }
+  
+  .include {
+    color: blueviolet;
+  }
+  
+  .id {
+    color: darkgreen;
+  }
+
+  .reserved {
+    color: red;
+  }
+  
+  .int {
+    color: lightseagreen;
+  }
+  
+  .real {
+    color: lightseagreen;
+  }
+  
+  .string {
+    color: black;
+  }
+
+  .op {
+      color: orange;
+  }
+
+  .comment {
+      color: gray;
+  }
+
+  .punctuation {
+      color: lightcoral;
+  }
+
+  .parenthesis {
+      color: rgb(255, 77, 77);
+  }
+
+  .bracket {
+      color: rgb(255, 211, 77);
+  }
+
+  .semicolon {
+    color: rgb(70,255,30);
+  }
