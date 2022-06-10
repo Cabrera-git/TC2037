@@ -296,4 +296,4 @@ IO.puts("Files parsed")
 
 # function runtime
 IO.puts("\nRuntime:")
-IO.puts(Parallel.timer(fn -> Parallel.parallel_write(4) end))
+IO.puts(Parallel.timer(fn -> Parallel.parallel_write(20) end))
