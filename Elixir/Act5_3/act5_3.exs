@@ -291,7 +291,7 @@ end
 
 # run function
 IO.puts("Parsing files...")
-Parallel.parallel_write(4)
+Parallel.parallel_write(20)
 IO.puts("Files parsed")
 
 # function runtime
